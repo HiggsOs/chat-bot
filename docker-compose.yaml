@@ -48,8 +48,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=chatwoot
-      - POSTGRES_USER=postgres
+      - POSTGRES_DB=${POSTGRES_DATABASE}
+      - POSTGRES_USER=${POSTGRES_USER}
 
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     networks:
