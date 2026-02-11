@@ -35,6 +35,8 @@ services:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
+    networks:
+      - nginx-proxy
     entrypoint: docker/entrypoints/rails.sh
     command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
     restart: always
@@ -52,6 +54,8 @@ services:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
+    networks:
+      - nginx-proxy
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always
 
@@ -67,6 +71,8 @@ services:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - nginx-proxy
 
   redis:
     image: redis:alpine
@@ -77,8 +83,13 @@ services:
       - redis_data:/data
     ports:
       - '127.0.0.1:6379:6379'
+    networks:
+      - nginx-proxy
 
 volumes:
   storage_data:
   postgres_data:
   redis_data:
+networks:
+  nginx-proxy:
+    external: true
